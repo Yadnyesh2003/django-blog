@@ -34,7 +34,11 @@
   @media (min-width: 768px) {
     .h-md-250 { height: 250px; }
   }
-  
+
+  .search-col {
+    margin-right: 30px;   /* adjust the spacing */
+  }
+
   /* Pagination */
   .blog-pagination {
     margin-bottom: 4rem;
