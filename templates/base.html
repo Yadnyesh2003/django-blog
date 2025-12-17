@@ -33,7 +33,9 @@
             {% else %}
             <span class="mr-2">Hello, {{user}}</span>
             &emsp;
-            <a class="btn btn-sm btn-warning" href="{% url 'logout' %}">Logout</a>
+            <a class="btn btn-sm btn-warning" href="{% url 'dashboard' %}">Dashboard</a>
+            &emsp;
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'logout' %}">Logout</a>
             {% endif %}
           </div>
         </div>
