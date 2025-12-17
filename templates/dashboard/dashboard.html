@@ -4,17 +4,11 @@
 
 <div class="row">
     <!-- Left Side Bar -->
-    <div class="col-md-3">
-        <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
-            <a class="nav-link text-dark bg-warning" href="#">Dashboard</a>
-            <a class="nav-link text-dark" href="#">Categories</a>
-            <a class="nav-link text-dark" href="#">Posts</a>
-            <a class="nav-link text-dark" href="#">Logout</a>
-  
-        </div>
-    </div>
+    <!-- Load the sidebar -->
+    {% include 'dashboard/sidebar.html' %}
     <!-- Right Side Bar -->
     <div class="col-md-9">
+        <span>Logged in as {{user}}</span>
         <div class="row">
             <div class="col">
                 <div class="card border-default mb-3">
