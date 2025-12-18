@@ -73,8 +73,9 @@ def add_post(request):
         if form.is_valid():
             post = form.save(commit=False)  # Temporarily save the form data in post variable
             post.author = request.user
+            post.save()
             title = form.cleaned_data['title']
-            post.slug = slugify(title)
+            post.slug = slugify(title) + '-' +str(post.id)
             post.save()
             return redirect('posts')
         else:
