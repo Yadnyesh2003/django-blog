@@ -11,8 +11,8 @@
             Categories
         </a>
         
-        <a class="nav-link text-dark"
-           href="#">
+        <a class="nav-link text-dark {% if '/posts/' in request.path %}bg-warning{% endif %}"
+           href="{% url 'posts' %}">
             Posts
         </a>
 
