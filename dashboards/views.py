@@ -86,3 +86,18 @@ def add_post(request):
             'form': form,
     }
     return render(request, 'dashboard/add_post.html', context)
+
+
+def edit_post(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    form = BlogPostForm(instance=post)
+    context = {
+        'form': form,
+        'post': post,
+    }
+    return render(request, 'dashboard/edit_post.html', context)
