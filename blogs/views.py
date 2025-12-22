@@ -2,10 +2,10 @@ from ast import keyword
 from multiprocessing import context
 from os import stat
 from webbrowser import get
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-
+from blogs.models import Comment
 from blogs.models import Blog, Category
 
 # Create your views here.
@@ -25,8 +25,22 @@ def posts_by_category(request, category_id):
 
 def blogs(request, slug):
     single_blog = get_object_or_404(Blog, slug=slug, status="Published")
+    # Handle POST request
+    if request.method == "POST":
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = single_blog
+        comment.comment = request.POST['comment']
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+
+    # Get All Comments
+    comments = Comment.objects.filter(blog=single_blog).order_by('-created_at')
+    comments_count = comments.count()
     context = {
         'single_blog': single_blog,
+        'comments': comments,
+        'comments_count': comments_count,
     }
     return render(request, 'blogs.html', context)
     # return render(request, 'blogs.html')
@@ -46,3 +60,4 @@ def search(request):
         'keyword': keyword,
     }
     return render(request, 'search.html', context)
+
