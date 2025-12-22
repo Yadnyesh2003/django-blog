@@ -7,6 +7,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from blogs.models import Comment
 from blogs.models import Blog, Category
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 def posts_by_category(request, category_id):
@@ -60,4 +62,16 @@ def search(request):
         'keyword': keyword,
     }
     return render(request, 'search.html', context)
+
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if comment.user != request.user:
+        raise PermissionDenied
+
+    comment.delete()
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
 

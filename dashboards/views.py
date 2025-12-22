@@ -9,11 +9,13 @@ from .forms import AddUserForm, EditUserForm, BlogPostForm, CategoryForm
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
+from .decorators import group_required
 
 
 # Create your views here.
 
 @login_required(login_url='login')
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def dashboard(request):
     category_count = Category.objects.all().count()
     print(category_count)
@@ -25,6 +27,7 @@ def dashboard(request):
     }
     return render(request, 'dashboard/dashboard.html', context)
 
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def categories(request):
     categories = Category.objects.all()
     context = {
@@ -32,6 +35,7 @@ def categories(request):
     }
     return render(request, 'dashboard/categories.html', context)
 
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -44,6 +48,7 @@ def add_category(request):
     }
     return render(request, 'dashboard/add_category.html', context)
 
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def edit_category(request, pk):
     category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
@@ -58,12 +63,13 @@ def edit_category(request, pk):
     }
     return render(request, 'dashboard/edit_category.html', context)
 
-
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def delete_category(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()
     return redirect('categories')
 
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def posts(request):
     posts = Blog.objects.all()
     context = {
@@ -71,6 +77,7 @@ def posts(request):
     }
     return render(request, 'dashboard/posts.html', context)
 
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def add_post(request):
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES)
@@ -91,7 +98,7 @@ def add_post(request):
     }
     return render(request, 'dashboard/add_post.html', context)
 
-
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def edit_post(request, pk):
     post = get_object_or_404(Blog, pk=pk)
     if request.method == 'POST':
@@ -109,37 +116,13 @@ def edit_post(request, pk):
     }
     return render(request, 'dashboard/edit_post.html', context)
 
-# def edit_post(request, pk):
-#     post = get_object_or_404(Blog, pk=pk)
-
-#     if request.method == 'POST':
-#         old_title = post.title  # store old title
-
-#         form = BlogPostForm(request.POST, request.FILES, instance=post)
-#         if form.is_valid():
-#             updated_post = form.save(commit=False)
-
-#             # regenerate slug ONLY if title changed
-#             if old_title != updated_post.title:
-#                 updated_post.slug = slugify(updated_post.title) + '-' + str(updated_post.id)
-
-#             updated_post.save()
-#             return redirect('posts')
-
-#     form = BlogPostForm(instance=post)
-#     context = {
-#         'form': form,
-#         'post': post,
-#     }
-#     return render(request, 'dashboard/edit_post.html', context)
-
-
+@group_required('Editor_Permissions', 'Manager_Permissions')
 def delete_post(request, pk):
     post = get_object_or_404(Blog, pk=pk)
     post.delete()
     return redirect('posts')
 
-# @permission_required('auth.view_user', raise_exception=True)
+@group_required('Manager_Permissions')
 def users(request):
     users = User.objects.all()
     context = {
@@ -147,6 +130,7 @@ def users(request):
     }
     return render(request, 'dashboard/users.html', context)
 
+@group_required('Manager_Permissions')
 def add_user(request):
     if request.method == 'POST':
         form = AddUserForm(request.POST)
@@ -159,6 +143,7 @@ def add_user(request):
     }
     return render(request, 'dashboard/add_user.html', context)
 
+@group_required('Manager_Permissions')
 def edit_user(request, pk):
     user = get_object_or_404(User, pk=pk)
     if request.method == 'POST':
@@ -173,6 +158,7 @@ def edit_user(request, pk):
     }
     return render(request, 'dashboard/edit_user.html', context)
 
+@group_required('Manager_Permissions')
 def delete_user(request, pk):
     user = get_object_or_404(User, pk=pk)
     user.delete()

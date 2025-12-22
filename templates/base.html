@@ -1,5 +1,6 @@
 <!-- Header Part -->
 {% load static %}
+{% load group_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,9 @@
             {% else %}
             <span class="mr-2">Hello, {{user}}</span>
             &emsp;
+            {% if user.is_superuser or user|has_group:'Editor_Permissions' or user|has_group:'Manager_Permissions' %}
             <a class="btn btn-sm btn-warning" href="{% url 'dashboard' %}">Dashboard</a>
+            {% endif %}        
             &emsp;
             <a class="btn btn-sm btn-outline-secondary" href="{% url 'logout' %}">Logout</a>
             {% endif %}
@@ -58,7 +61,7 @@
 
 <!-- Footer Part -->
     <footer class="blog-footer">
-        <p>Django blog built with � by <a href="#">Rathan Kumar</a></p>
+        <p>Django blog built with � by <a href="#">Yadnyesh Firke</a></p>
     </footer>
   </body>
 </html>

@@ -26,17 +26,28 @@
                     <!-- Comments -->
                      <h4>Comments ({{comments_count}})</h4>
                      {% if comments %}
-                            {% for comment in comments %}
-                            <div class="card mt-1">
-                                <div class="card-body">
-                                    <p class="card-text mb-0">{{comment}}</p>
-                                    <span>
-                                        <small>By {{comment.user}} - </small>
-                                        <small>{{comment.created_at | timesince}} ago</small>
-                                    </span>
-                                </div>
-                            </div>
-                            {% endfor %}
+                     {% for comment in comments %}
+                     <div class="card mt-1">
+                         <div class="card-body">
+                             <p class="card-text mb-0">{{ comment.comment }}</p>
+                     
+                             <div class="d-flex justify-content-between align-items-center">
+                                 <span>
+                                     <small>By {{ comment.user }} · </small>
+                                     <small>{{ comment.created_at|timesince }} ago</small>
+                                 </span>
+                                 {% if user == comment.user %}
+                                     <form action="{% url 'delete_comment' comment.id %}" method="POST" class="mb-0">
+                                         {% csrf_token %}
+                                         <button type="submit" class="btn btn-sm btn-danger">
+                                             Delete
+                                         </button>
+                                     </form>
+                                 {% endif %}
+                             </div>
+                         </div>
+                     </div>
+                     {% endfor %}                     
                      {% else %}
                         <p>No comments yet.</p>
                      {% endif %}

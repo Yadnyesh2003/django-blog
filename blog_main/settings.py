@@ -136,3 +136,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CRISPY_TEMPLATE_PACK = 'Bootstrap4'
+
+HANDLER403 = 'blog_main.views.permission_denied_view'
