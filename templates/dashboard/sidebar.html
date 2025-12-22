@@ -1,10 +1,17 @@
 
 <div class="col-md-3">
     <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
-    <a class="nav-link text-dark {% if request.path == '/dashboard/' %}bg-warning{% endif %}"
+        <a class="nav-link text-dark {% if request.path == '/dashboard/' %}bg-warning{% endif %}"
            href="{% url 'dashboard' %}">
-            Dashboard
+           Dashboard
         </a>
+
+        {% if perms.auth.view_user %}
+        <a class="nav-link text-dark {% if '/users/' in request.path %}bg-warning{% endif %}"
+            href="{% url 'users' %}">
+            Users
+        </a>
+        {% endif %}
 
         <a class="nav-link text-dark {% if '/categories/' in request.path %}bg-warning{% endif %}"
            href="{% url 'categories' %}">
