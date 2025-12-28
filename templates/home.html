@@ -1,32 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- =====================
-   HERO / FEATURED POST
-===================== -->
-{% for post in featured_posts %}
-{% if forloop.first %}
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
+{% if hero_post %}
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{hero_post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
     <div class="hero-content">
-      <h1 class="display-4">{{post.title}}</h1>
-      <p class="lead my-3">{{post.short_description | truncatewords:20}}</p>
-      <a href="{% url 'blogs' post.slug %}" class="btn btn-warning btn-lg">
+      <h1 class="display-4">{{hero_post.title}}</h1>
+      <p class="lead my-3">{{hero_post.short_description | truncatewords:20}}</p>
+      <a href="{% url 'blogs' hero_post.slug %}" class="btn btn-warning btn-lg">
         Continue Reading →
       </a>
     </div>
-  </div>
+</div>
 {% endif %}
-{% endfor %}
 
 
-<!-- =====================
-   FEATURED STORIES
-===================== -->
 <h3 class="section-title">Featured Stories</h3>
 
 <div class="row mb-4">
   {% for post in featured_posts %}
-  {% if not forloop.first %}
   <div class="col-md-6 mb-3">
     <div class="card marvel-card h-100">
       <div class="card-body">
@@ -42,17 +33,33 @@
       </div>
     </div>
   </div>
-  {% endif %}
   {% endfor %}
 </div>
 
-<!-- =====================
-   MAIN CONTENT + SIDEBAR
-===================== -->
+<nav aria-label="Featured Page navigation" class="mb-5">
+    <ul class="pagination">
+        {% if featured_posts.has_previous %}
+        <li class="page-item">
+            <a class="page-link text-danger" href="?featured_page={{ featured_posts.previous_page_number }}&page={{ posts.number }}">Previous</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link bg-dark text-white border-dark">Page {{ featured_posts.number }} of {{ featured_posts.paginator.num_pages }}</span>
+        </li>
+
+        {% if featured_posts.has_next %}
+        <li class="page-item">
+            <a class="page-link text-danger" href="?featured_page={{ featured_posts.next_page_number }}&page={{ posts.number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+
 <h3 class="section-title">Latest Articles</h3>
 
 <div class="row">
-  <!-- MAIN POSTS -->
   <div class="col-md-8">
     {% for post in posts %}
     <div class="card marvel-card mb-3">
@@ -69,9 +76,28 @@
       </div>
     </div>
     {% endfor %}
+
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-danger" href="?page={{ posts.previous_page_number }}&featured_page={{ featured_posts.number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link bg-dark text-white border-dark">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+            </li>
+
+            {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link text-danger" href="?page={{ posts.next_page_number }}&featured_page={{ featured_posts.number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="col-md-4">
     <div class="sidebar-box mb-4">
       <h4>{{ about.about_heading }}</h4>

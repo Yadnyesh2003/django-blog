@@ -8,21 +8,54 @@ from django.contrib import auth
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
+from django.core.paginator import Paginator
 
 
 def permission_denied_view(request, exception=None):
     return render(request, 'dashboard/permission_denied.html', status=403)
 
+# def home(request):
+#     # categories = Category.objects.all()
+#     featured_posts = Blog.objects.filter(is_featured=True, status="Published").order_by('updated_at')
+#     posts = Blog.objects.filter(is_featured=False, status="Published").order_by('updated_at')
+#     try:
+#         about = About.objects.get()
+#     except:
+#         about = None
+#     context = {
+#         # 'categories': categories,
+#         'featured_posts': featured_posts,
+#         'posts': posts,
+#         'about': about,
+#     }
+#     return render(request, 'home.html', context)
+
 def home(request):
-    # categories = Category.objects.all()
-    featured_posts = Blog.objects.filter(is_featured=True, status="Published").order_by('updated_at')
-    posts = Blog.objects.filter(is_featured=False, status="Published").order_by('updated_at')
+    featured_queryset = Blog.objects.filter(is_featured=True, status="Published").order_by('updated_at')
+    hero_post = None
+    featured_stories_list = []
+    
+    if featured_queryset.exists():
+        hero_post = featured_queryset[0]
+        featured_stories_list = featured_queryset[1:]
+
+    featured_paginator = Paginator(featured_stories_list, 4)
+    featured_page_number = request.GET.get('featured_page')
+    featured_posts = featured_paginator.get_page(featured_page_number)
+
+    latest_queryset = Blog.objects.filter(is_featured=False, status="Published").order_by('updated_at')
+    
+    latest_paginator = Paginator(latest_queryset, 2)
+    latest_page_number = request.GET.get('page')
+    posts = latest_paginator.get_page(latest_page_number)
+
     try:
         about = About.objects.get()
     except:
         about = None
+
     context = {
-        # 'categories': categories,
+        'hero_post': hero_post,
         'featured_posts': featured_posts,
         'posts': posts,
         'about': about,

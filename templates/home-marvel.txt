@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- =====================
+   HERO / FEATURED POST
+===================== -->
+{% for post in featured_posts %}
+{% if forloop.first %}
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
+    <div class="hero-content">
+      <h1 class="display-4">{{post.title}}</h1>
+      <p class="lead my-3">{{post.short_description | truncatewords:20}}</p>
+      <a href="{% url 'blogs' post.slug %}" class="btn btn-warning btn-lg">
+        Continue Reading →
+      </a>
+    </div>
+  </div>
+{% endif %}
+{% endfor %}
+
+
+<!-- =====================
+   FEATURED STORIES
+===================== -->
+<h3 class="section-title">Featured Stories</h3>
+
+<div class="row mb-4">
+  {% for post in featured_posts %}
+  {% if not forloop.first %}
+  <div class="col-md-6 mb-3">
+    <div class="card marvel-card h-100">
+      <div class="card-body">
+        <a href="{% url 'blogs' post.slug %}">
+          <h3 class="card-title">{{ post.title }}</h3>
+        </a>
+        <small class="text-muted d-block mb-2">
+          {{ post.created_at|timesince }} ago · {{ post.author }}
+        </small>
+        <p class="card-text">
+          {{ post.short_description|truncatewords:20 }}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+
+<!-- =====================
+   MAIN CONTENT + SIDEBAR
+===================== -->
+<h3 class="section-title">Latest Articles</h3>
+
+<div class="row">
+  <!-- MAIN POSTS -->
+  <div class="col-md-8">
+    {% for post in posts %}
+    <div class="card marvel-card mb-3">
+      <div class="card-body">
+        <a href="{% url 'blogs' post.slug %}">
+          <h3 class="card-title">{{ post.title }}</h3>
+        </a>
+        <small class="text-muted d-block mb-2">
+          {{ post.created_at|timesince }} ago · {{ post.author }}
+        </small>
+        <p class="card-text">
+          {{ post.short_description|truncatewords:25 }}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="col-md-4">
+    <div class="sidebar-box mb-4">
+      <h4>{{ about.about_heading }}</h4>
+      <p>{{ about.about_description }}</p>
+    </div>
+
+    {% if social_links %}
+    <div class="sidebar-box">
+      <h4>Follow Us</h4>
+      <ul class="list-unstyled">
+        {% for link in social_links %}
+        <li>
+          <a href="{{ link.link }}" target="_blank">
+            {{ link.platform }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+{% endblock %}
