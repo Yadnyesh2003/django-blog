@@ -18,7 +18,10 @@
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
-            <a class="blog-header-logo text-dark" href="/">Django Blog</a>
+            <a class="blog-header-logo mb-2" href="/">
+              <span class="marvel-logo-text">Marvel</span>
+            </a> <br>
+            <span style="color:#e62429;">Stories from the Marvel Cinematic Multi-Universe</span>
           </div>
           <div class="col-4 search-col">
             <form action="{% url 'search' %}" method="get">
@@ -46,7 +49,7 @@
       </header>
 
       <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
+        <nav class="nav d-flex justify-content-between px-3">
             {% for cat in categories %}
           <a class="p-2 text-muted" href="{% url 'posts_by_category' cat.id  %}">{{cat.category_name}}</a>
           {% endfor %}
@@ -59,9 +62,24 @@
 {% endblock %}
 
 
-<!-- Footer Part -->
+    </div>
     <footer class="blog-footer">
-        <p>Django blog built with � by <a href="#">Yadnyesh Firke</a></p>
-    </footer>
+      <div class="container footer-inner">
+        
+        <div class="footer-brand">
+          The Multiverse Times
+        </div>
+    
+        <div class="footer-text">
+          Fan-made Marvel editorial blog.<br>
+          Built with Django by <a href="http://www.linkedin.com/in/yadnyesh-firke-5715b725b">Yadnyesh Firke</a>
+        </div>
+    
+        <div class="footer-note">
+          © 2025 · Unofficial fan project · All characters belong to Marvel
+        </div>
+    
+      </div>
+    </footer>    
   </body>
 </html>

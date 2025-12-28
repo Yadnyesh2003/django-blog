@@ -1,73 +1,345 @@
-/* stylelint-disable selector-list-comma-newline-after */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
+:root {
+  --marvel-red: #e62429;
+  --black: #0b0b0b;
+  --dark: #1c1c1c;
+  --gray: #bdbdbd;
+  --white: #ffffff;
+}
+
+/* =====================
+   GLOBAL
+===================== */
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* =====================
+   LINKS (BASE)
+===================== */
+a {
+  color: var(--white);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: var(--white);
+}
+
+
+
+/* =====================
+   HEADER (CSS MARVEL LOGO)
+===================== */
 .blog-header {
-    border-bottom: 1px solid #e5e5e5;
-  }
-  
-  .blog-header-logo {
-    font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
-    font-size: 2.25rem;
-  }
-  
-  .blog-header-logo:hover {
-    text-decoration: none;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
-  }
-  
-  .display-4 {
-    font-size: 2.5rem;
-  }
-  @media (min-width: 768px) {
-    .display-4 {
-      font-size: 3rem;
-    }
-  }
-  
-  .flex-auto {
-    flex: 0 0 auto;
-  }
-  
-  .h-250 { height: 250px; }
-  @media (min-width: 768px) {
-    .h-md-250 { height: 250px; }
-  }
+  background: var(--black);
+  border-bottom: 3px solid var(--marvel-red);
+}
 
-  .search-col {
-    margin-right: 30px;   /* adjust the spacing */
-  }
+.blog-header-logo {
+  display: inline-block;
+  text-decoration: none;
+}
 
-  /* Pagination */
-  .blog-pagination {
-    margin-bottom: 4rem;
-  }
-  
-  /*
-   * Blog posts
-   */
-  .blog-post {
-    margin-bottom: 4rem;
-  }
-  .blog-post-title {
-    font-size: 2.5rem;
-  }
-  .blog-post-meta {
-    margin-bottom: 1.25rem;
-    color: #727272;
-  }
-  
-  /*
-   * Footer
-   */
-  .blog-footer {
-    padding: 2.5rem 0;
-    color: #727272;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-top: .05rem solid #e5e5e5;
-  }
-  .blog-footer p:last-child {
-    margin-bottom: 0;
-  }  
+/* MARVEL-STYLE LOGO BLOCK */
+.marvel-logo-text {
+  display: inline-block;
+  background: var(--marvel-red);
+  color: var(--white);
+  font-weight: 900;
+  font-size: 1.8rem;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 0 #9f0f13,
+    0 6px 12px rgba(0,0,0,0.6);
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+/* Hover: subtle zoom + glow */
+.blog-header-logo:hover .marvel-logo-text {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 0 #9f0f13,
+    0 0 20px rgba(230, 36, 41, 0.9),
+    0 0 40px rgba(230, 36, 41, 0.4);
+  filter: brightness(1.05);
+}
+
+
+
+
+/* =====================
+   CATEGORY NAV (MARVEL STYLE)
+===================== */
+.nav-scroller {
+  background: var(--dark);
+}
+
+.nav a {
+  color: var(--white) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  text-decoration: none !important;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover = solid Marvel red (NO glow, NO underline) */
+.nav a:hover {
+  background-color: var(--marvel-red);
+  color: var(--white);
+  text-decoration: none !important;
+  transform: scale(1.05);
+}
+
+/* =====================
+   SEARCH
+===================== */
+.form-control {
+  background: var(--dark);
+  border: none;
+  color: white;
+}
+
+.form-control::placeholder {
+  color: var(--gray);
+}
+
+.bg-warning {
+  background: var(--marvel-red);
+  border: none;
+  font-weight: 700;
+  color: white;
+}
+
+.btn-warning {
+  background: var(--marvel-red);
+  border: none;
+  font-weight: 700;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #ff3b3f;
+  box-shadow: 0 0 18px rgba(230, 36, 41, 0.9);
+}
+
+/* =====================
+   SECTION HEADERS (CRITICAL FIX)
+===================== */
+h3,
+.blog-sidebar h4 {
+  color: var(--white) !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+h3::before,
+.blog-sidebar h4::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 18px;
+  background: var(--marvel-red);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* =====================
+   HERO / FEATURED
+===================== */
+.jumbotron {
+  background-color: var(--dark);
+  border-left: 6px solid var(--marvel-red);
+}
+
+
+
+/* =====================
+   BLOG CARDS
+===================== */
+.card {
+  background: var(--dark);
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-bottom: 3px solid var(--marvel-red);
+}
+
+/* POST TITLES — FIXED HIERARCHY */
+.card h3,
+.blog-post-title {
+  color: var(--white) !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.card h3 a:hover,
+.blog-post-title a:hover {
+  text-shadow: 0 0 10px rgba(230, 36, 41, 0.9);
+}
+
+/* BODY TEXT — DIMMED */
+.card-text,
+.blog-post p {
+  color: #d0d0d0;
+}
+
+/* =====================
+   META
+===================== */
+small,
+.blog-post-meta {
+  color: var(--gray);
+}
+
+/* =====================
+   COMMENTS
+===================== */
+.card-body p {
+  color: var(--white);
+}
+
+/* =====================
+   FOOTER (MARVEL THEME)
+===================== */
+.blog-footer {
+  background-color: #070707;
+  border-top: 4px solid #e62429;
+  padding: 2.5rem 0;
+  margin-top: 4rem;
+}
+
+.footer-inner {
+  text-align: center;
+}
+
+/* MARVEL BRAND */
+.footer-brand {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+/* MAIN TEXT */
+.footer-text {
+  color: #d0d0d0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+/* NAME LINK */
+.footer-text a {
+  color: #ffffff;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.footer-text a:hover {
+  background-color: #e62429;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* DISCLAIMER */
+.footer-note {
+  color: #bdbdbd;
+  font-size: 0.75rem;
+  letter-spacing: 0.6px;
+}
+
+
+/* =====================
+   HERO SECTION
+===================== */
+.marvel-hero {
+  position: relative;
+  background-image: url('{{ post.featured_image.url }}');
+  background-size: cover;
+  background-position: center;
+  min-height: 380px;
+  border-left: 6px solid var(--marvel-red);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 700px;
+}
+
+/* =====================
+   SECTION TITLES
+===================== */
+.section-title {
+  margin: 2.5rem 0 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =====================
+   CARDS
+===================== */
+.marvel-card {
+  background: var(--dark);
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.marvel-card:hover {
+  border-bottom-color: var(--marvel-red);
+}
+
+.marvel-card h3 {
+  font-size: 1.2rem;
+}
+
+/* =====================
+   SIDEBAR
+===================== */
+.sidebar-box {
+  background: var(--dark);
+  padding: 1.2rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--marvel-red);
+}
+
+.sidebar-box h4 {
+  margin-bottom: 0.8rem;
+}
